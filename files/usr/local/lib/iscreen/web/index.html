@@ -1,0 +1,139 @@
+<!doctype html>
+<!--
+# ----------------------------------------------------------------------------
+# Main page of pi-infoscreen.
+#
+# This file defines the single page application.
+#
+# Author: Bernhard Bablok
+# License: GPL3
+#
+# Website: https://github.com/bablokb/pi-infoscreen
+#
+# ----------------------------------------------------------------------------
+-->
+
+<html lang="de">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Pi-Infoscreen">
+
+    <title>Pi-Infoscreen</title>
+
+    <!-- layout and styling thanks to purecss.io -->
+    <link rel="stylesheet" href="css/w3.css">
+    <link rel="stylesheet" href="css/fontawesome-all.min.css">
+
+     <!-- jquery and special functions -->
+     <script src="js/jquery-min.js"></script>
+<!--
+     <script src="js/utils.js"></script>
+-->
+     <script  type="text/javascript">
+       // configuration
+       var UPDATE_INTERVAL = 10;
+       var PAGES = [
+         {"url": "https://www.bahn.de"},
+         {"url": "https://www.wetteronline.de/muenchen"},
+         {"url": "https://raspifeed.com"},
+         {"url": "https://sz.de"}
+       ];
+
+       // global variables
+       var pageIndex = 0;
+       var autoUpdate = true;
+
+       // functions
+       function next() {
+         toggleAutoUpdate(false);
+         pageIndex = (pageIndex+1) % PAGES.length;
+         $('#main_iframe').attr('src', PAGES[pageIndex].url);
+       };
+
+       function prev() {
+         toggleAutoUpdate(false);
+         if (!pageIndex) {
+           pageIndex = PAGES.length - 1;
+         } else {
+           pageIndex = (pageIndex-1) % PAGES.length;
+         }
+         $('#main_iframe').attr('src', PAGES[pageIndex].url);
+       };
+
+       function toggleAutoUpdate(bMode) {
+         if (bMode === undefined) {
+           autoUpdate = ! autoUpdate;
+         } else {
+           autoUpdate = bMode;
+         }
+         if (autoUpdate) {
+           $('#auto').removeClass('fa-pause-circle');
+           $('#auto').addClass('fa-play-circle');
+         } else {
+           $('#auto').removeClass('fa-play-circle');
+           $('#auto').addClass('fa-pause-circle');
+         }
+       };
+
+       function update() {
+         if (autoUpdate) {
+           next();
+         }
+       };
+
+       $(document).ready(function() {
+         setInterval(update,1000*UPDATE_INTERVAL);
+       });
+     </script>
+  </head>
+
+  <body height="100%">
+    <div id="nav_header">
+      <div class="w3-bar w3-center w3-margin-top w3-margin-bottom">
+        <a class="w3-button w3-small
+                     w3-padding-large w3-round-xxlarge w3-red"
+                href="https://m.bahn.de" 
+                target="main_iframe">Bahn</a>
+        <a class="w3-button w3-small
+                     w3-padding-large w3-round-xxlarge w3-green"
+           href="https://www.wetteronline.de/muenchen" 
+           target="main_iframe">Wetter</a>
+        <a class="w3-button w3-small
+                     w3-padding-large w3-round-xxlarge w3-yellow"
+           href="https://raspifeed.com" target="main_iframe">Raspifeed</a>
+        <a class="w3-button w3-small
+                     w3-padding-large w3-round-xxlarge w3-blue"
+           href="https://sz.de" target="main_iframe">SZ</a>
+      </div>
+<!--
+      %include('nav_header.tpl')
+-->
+    </div>
+
+    <div id="main" class="w3-container">
+      <iframe id="main_iframe"  name="main_iframe" height="550px" width="100%"
+              >Loading iframe</iframe>
+<!--
+      %include('main.tpl')
+-->
+    </div>
+
+    <div id="nav_footer">
+      <div class="w3-bar w3-center w3-margin-top w3-margin-bottom">
+        <button class="fas fa-chevron-circle-left fa-2x w3-button w3-small
+                     w3-padding-large w3-round-xxlarge w3-gray"
+                onClick="prev()"></button>
+        <button id="auto" class="fas fa-2x fa-pause-circle w3-button w3-small 
+                     w3-padding-large w3-round-xxlarge w3-gray"
+                onClick="toggleAutoUpdate()"></button>
+        <button class="fas fa-2x fa-chevron-circle-right w3-button w3-small 
+                     w3-padding-large w3-round-xxlarge w3-gray"
+                onClick="next()"></button>
+      </div>
+<!--
+      %include('nav_footer.tpl')
+-->
+    </div>
+  </body>
+</html>

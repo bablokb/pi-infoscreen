@@ -34,10 +34,18 @@
        // configuration
        var UPDATE_INTERVAL = 10;
        var PAGES = [
-         {"url": "https://www.bahn.de"},
-         {"url": "https://www.wetteronline.de/muenchen"},
-         {"url": "https://raspifeed.com"},
-         {"url": "https://sz.de"}
+         {"url": "https://www.bahn.de",
+          "color": "red",
+          "text": "Bahn"},
+         {"url": "https://www.wetteronline.de/muenchen",
+          "color": "green",
+          "text": "Wetter"},
+         {"url": "https://raspifeed.com",
+          "color": "gelb",
+          "text": "Raspifeed"},
+         {"url": "https://sz.de",
+          "color": "blue",
+          "text": "SZ"}
        ];
 
        // global variables
@@ -45,14 +53,18 @@
        var autoUpdate = true;
 
        // functions
-       function next() {
-         toggleAutoUpdate(false);
+       function next(bAuto) {
+         if (!bAuto) {
+           toggleAutoUpdate(false);
+         }
          pageIndex = (pageIndex+1) % PAGES.length;
          $('#main_iframe').attr('src', PAGES[pageIndex].url);
        };
 
-       function prev() {
-         toggleAutoUpdate(false);
+       function prev(bAuto) {
+         if (!bAuto) {
+           toggleAutoUpdate(false);
+         }
          if (!pageIndex) {
            pageIndex = PAGES.length - 1;
          } else {
@@ -67,42 +79,59 @@
          } else {
            autoUpdate = bMode;
          }
+         console.error("setting autoUpdate to: " + autoUpdate);
          if (autoUpdate) {
-           $('#auto').removeClass('fa-pause-circle');
-           $('#auto').addClass('fa-play-circle');
-         } else {
            $('#auto').removeClass('fa-play-circle');
            $('#auto').addClass('fa-pause-circle');
+         } else {
+           $('#auto').removeClass('fa-pause-circle');
+           $('#auto').addClass('fa-play-circle');
          }
        };
 
        function update() {
          if (autoUpdate) {
-           next();
+           next(true);
          }
        };
 
        $(document).ready(function() {
+         // loop over PAGES and add direct-links
+         toggleAutoUpdate(autoUpdate);
          setInterval(update,1000*UPDATE_INTERVAL);
        });
      </script>
   </head>
 
   <body height="100%">
-    <div id="nav_header">
-      <div class="w3-bar w3-center w3-margin-top w3-margin-bottom">
-        <a class="w3-button w3-small
+    <div id="nav_header" width="100%" style="display:inline-flex"
+           class="w3-bar w3-margins-left w3-margins-top w3-margins-bottom">
+
+      <div id="nav_player" class="w3-bar w3-left w3-padding-top">
+        <button class="fas fa-chevron-circle-left fa-2x w3-button w3-small
+                     w3-padding-large w3-round-xxlarge w3-gray"
+                onClick="prev(false)"></button>
+        <button id="auto" class="fas fa-2x fa-pause-circle w3-button w3-small
+                     w3-padding-large w3-round-xxlarge w3-gray"
+                onClick="toggleAutoUpdate()"></button>
+        <button class="fas fa-2x fa-chevron-circle-right w3-button w3-small
+                     w3-padding-large w3-round-xxlarge w3-gray"
+                onClick="next(false)"></button>
+      </div>
+
+      <div id="nav_direct" class="w3-bar w3-margin-right">
+        <a class="w3-button w3-small w3-right
                      w3-padding-large w3-round-xxlarge w3-red"
                 href="https://m.bahn.de" 
                 target="main_iframe">Bahn</a>
-        <a class="w3-button w3-small
+        <a class="w3-button w3-small w3-right
                      w3-padding-large w3-round-xxlarge w3-green"
-           href="https://www.wetteronline.de/muenchen" 
-           target="main_iframe">Wetter</a>
-        <a class="w3-button w3-small
+                 href="https://www.wetteronline.de/muenchen"
+                 target="main_iframe">Wetter</a>
+        <a class="w3-button w3-small w3-right
                      w3-padding-large w3-round-xxlarge w3-yellow"
-           href="https://raspifeed.com" target="main_iframe">Raspifeed</a>
-        <a class="w3-button w3-small
+                  href="https://raspifeed.com" target="main_iframe">Raspifeed</a>
+        <a class="w3-button w3-small w3-right
                      w3-padding-large w3-round-xxlarge w3-blue"
            href="https://sz.de" target="main_iframe">SZ</a>
       </div>
@@ -119,18 +148,6 @@
 -->
     </div>
 
-    <div id="nav_footer">
-      <div class="w3-bar w3-center w3-margin-top w3-margin-bottom">
-        <button class="fas fa-chevron-circle-left fa-2x w3-button w3-small
-                     w3-padding-large w3-round-xxlarge w3-gray"
-                onClick="prev()"></button>
-        <button id="auto" class="fas fa-2x fa-pause-circle w3-button w3-small 
-                     w3-padding-large w3-round-xxlarge w3-gray"
-                onClick="toggleAutoUpdate()"></button>
-        <button class="fas fa-2x fa-chevron-circle-right w3-button w3-small 
-                     w3-padding-large w3-round-xxlarge w3-gray"
-                onClick="next()"></button>
-      </div>
 <!--
       %include('nav_footer.tpl')
 -->

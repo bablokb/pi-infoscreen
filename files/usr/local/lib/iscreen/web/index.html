@@ -97,6 +97,13 @@
 
        $(document).ready(function() {
          // loop over PAGES and add direct-links
+         nav_direct = $('#nav_direct');
+         for page in PAGES {
+          nav_direct.add('<a class="w3-button w3-small w3-right
+                     w3-padding-large w3-round-xxlarge w3'+page.color+'"
+                href="' + page.url +'"
+                target="main_iframe">' + page.text + '</a>');
+         }
          toggleAutoUpdate(autoUpdate);
          setInterval(update,1000*UPDATE_INTERVAL);
        });
@@ -120,20 +127,6 @@
       </div>
 
       <div id="nav_direct" class="w3-bar w3-margin-right">
-        <a class="w3-button w3-small w3-right
-                     w3-padding-large w3-round-xxlarge w3-red"
-                href="https://m.bahn.de" 
-                target="main_iframe">Bahn</a>
-        <a class="w3-button w3-small w3-right
-                     w3-padding-large w3-round-xxlarge w3-green"
-                 href="https://www.wetteronline.de/muenchen"
-                 target="main_iframe">Wetter</a>
-        <a class="w3-button w3-small w3-right
-                     w3-padding-large w3-round-xxlarge w3-yellow"
-                  href="https://raspifeed.com" target="main_iframe">Raspifeed</a>
-        <a class="w3-button w3-small w3-right
-                     w3-padding-large w3-round-xxlarge w3-blue"
-           href="https://sz.de" target="main_iframe">SZ</a>
       </div>
 <!--
       %include('nav_header.tpl')

@@ -41,7 +41,7 @@
           "color": "green",
           "text": "Wetter"},
          {"url": "https://raspifeed.com",
-          "color": "gelb",
+          "color": "yellow",
           "text": "Raspifeed"},
          {"url": "https://sz.de",
           "color": "blue",
@@ -98,10 +98,12 @@
        $(document).ready(function() {
          // loop over PAGES and add direct-links
          nav_direct = $('#nav_direct');
-         for page in PAGES {
-          nav_direct.add('<a class="w3-button w3-small w3-right
-                     w3-padding-large w3-round-xxlarge w3'+page.color+'"
-                href="' + page.url +'"
+         var arrayLength = PAGES.length;
+         for (var i = 0; i < arrayLength; i++) {
+          var page = PAGES[i];
+          nav_direct.append('<a class="w3-button w3-small w3-right \
+                     w3-padding-large w3-round-xxlarge w3-'+page.color+'"\
+                href="' + page.url +'"\
                 target="main_iframe">' + page.text + '</a>');
          }
          toggleAutoUpdate(autoUpdate);

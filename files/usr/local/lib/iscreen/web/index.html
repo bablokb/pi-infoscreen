@@ -106,6 +106,10 @@
                 href="' + page.url +'"\
                 target="main_iframe">' + page.text + '</a>');
          }
+         $('#nav_direct a').click(function() {
+           console.error("setting autoUpdate to false (direct link)");
+           autoUpdate = false;
+         });
          toggleAutoUpdate(autoUpdate);
          setInterval(update,1000*UPDATE_INTERVAL);
        });

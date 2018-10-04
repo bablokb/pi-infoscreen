@@ -1,0 +1,37 @@
+#!/bin/bash
+# --------------------------------------------------------------------------
+# Infoscreen shutdown timer.
+#
+# This script just clears any pending shutdowns and schedules a new
+# shutdown.
+#
+# You should copy this script to /usr/local/sbin and
+# add the following configuration to /etc/gpio-poll.conf (configure to your taste)
+#
+# [GLOBAL]
+# gpios: 17
+#
+# [GPIO17]
+# edge: rising
+# ignore_initial: 0
+# bounce_time: 60
+# command: '/usr/local/sbin/shutdown-timer'
+#
+# --------------------------------------------------------------------------
+# Author: Bernhard Bablok
+# License: GPL3
+#
+# Website: https://github.com/bablokb/pi-infoscreen
+# --------------------------------------------------------------------------
+
+# some constants, change as needed
+SHUTDOWN_DELAY=15   # time in minutes until shutdown
+
+# --- main program   -------------------------------------------------------
+
+# First argument is GPIO pin number, second argument is value,
+# third is switch-time and fourth is repeat-time
+# For this application we don't need any of these
+
+/sbin/shutdown -c                           # cancel pending shutdown
+/sbin/shutdown --no-wall +$SHUTDOWN_DELAY   # schedule shutdown

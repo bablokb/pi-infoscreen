@@ -21,98 +21,19 @@
 
     <title>Pi-Infoscreen</title>
 
-    <!-- layout and styling thanks to purecss.io -->
+    <!-- layout and styling thanks to w3c.css -->
     <link rel="stylesheet" href="css/w3.css">
     <link rel="stylesheet" href="css/fontawesome-all.min.css">
 
      <!-- jquery and special functions -->
      <script src="js/jquery-min.js"></script>
-<!--
-     <script src="js/utils.js"></script>
--->
+     <script src="js/funcs.js"></script>
+
+     <!-- configuration -->
+     <script src="js/config.js"></script>
+
      <script  type="text/javascript">
-       // configuration
-       var UPDATE_INTERVAL = 10;
-       var PAGES = [
-         {"url": "https://www.bahn.de",
-          "color": "red",
-          "text": "Bahn"},
-         {"url": "https://www.wetteronline.de/muenchen",
-          "color": "green",
-          "text": "Wetter"},
-         {"url": "https://raspifeed.com",
-          "color": "yellow",
-          "text": "Raspifeed"},
-         {"url": "https://sz.de",
-          "color": "blue",
-          "text": "SZ"}
-       ];
-
-       // global variables
-       var pageIndex = 0;
-       var autoUpdate = true;
-
-       // functions
-       function next(bAuto) {
-         if (!bAuto) {
-           toggleAutoUpdate(false);
-         }
-         pageIndex = (pageIndex+1) % PAGES.length;
-         $('#main_iframe').attr('src', PAGES[pageIndex].url);
-       };
-
-       function prev(bAuto) {
-         if (!bAuto) {
-           toggleAutoUpdate(false);
-         }
-         if (!pageIndex) {
-           pageIndex = PAGES.length - 1;
-         } else {
-           pageIndex = (pageIndex-1) % PAGES.length;
-         }
-         $('#main_iframe').attr('src', PAGES[pageIndex].url);
-       };
-
-       function toggleAutoUpdate(bMode) {
-         if (bMode === undefined) {
-           autoUpdate = ! autoUpdate;
-         } else {
-           autoUpdate = bMode;
-         }
-         console.error("setting autoUpdate to: " + autoUpdate);
-         if (autoUpdate) {
-           $('#auto').removeClass('fa-play-circle');
-           $('#auto').addClass('fa-pause-circle');
-         } else {
-           $('#auto').removeClass('fa-pause-circle');
-           $('#auto').addClass('fa-play-circle');
-         }
-       };
-
-       function update() {
-         if (autoUpdate) {
-           next(true);
-         }
-       };
-
-       $(document).ready(function() {
-         // loop over PAGES and add direct-links
-         nav_direct = $('#nav_direct');
-         var arrayLength = PAGES.length;
-         for (var i = 0; i < arrayLength; i++) {
-          var page = PAGES[i];
-          nav_direct.append('<a class="w3-button w3-small w3-right \
-                     w3-padding-large w3-round-xxlarge w3-'+page.color+'"\
-                href="' + page.url +'"\
-                target="main_iframe">' + page.text + '</a>');
-         }
-         $('#nav_direct a').click(function() {
-           console.error("setting autoUpdate to false (direct link)");
-           autoUpdate = false;
-         });
-         toggleAutoUpdate(autoUpdate);
-         setInterval(update,1000*UPDATE_INTERVAL);
-       });
+       $(document).ready(docReady);
      </script>
   </head>
 
@@ -132,24 +53,15 @@
                 onClick="next(false)"></button>
       </div>
 
+      <!-- filled programmatically -->
       <div id="nav_direct" class="w3-bar w3-margin-right">
       </div>
-<!--
-      %include('nav_header.tpl')
--->
     </div>
 
+    <!-- content - URL is loaded dynamically -->
     <div id="main" class="w3-container">
       <iframe id="main_iframe"  name="main_iframe" height="550px" width="100%"
               >Loading iframe</iframe>
-<!--
-      %include('main.tpl')
--->
-    </div>
-
-<!--
-      %include('nav_footer.tpl')
--->
     </div>
   </body>
 </html>

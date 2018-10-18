@@ -70,8 +70,12 @@ function docReady() {
   var arrayLength = PAGES.length;
   for (var i = 0; i < arrayLength; i++) {
    var page = PAGES[i];
-   nav_direct.append('<a class="w3-button w3-small w3-right \
-              w3-padding-large w3-round-xxlarge w3-'+page.color+'"\
+   var direction = 'w3-right';
+   if (navTypeVert) {
+     direction = 'w3-center w3-bar-item w3-margin-bottom';
+   }
+   nav_direct.append('<a class="w3-button w3-small ' + direction +
+              ' w3-padding-large w3-round-xxlarge w3-'+page.color+'"\
          href="' + page.url +'"\
          target="main_iframe">' + page.text + '</a>');
   }

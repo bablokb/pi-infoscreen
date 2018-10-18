@@ -33,6 +33,7 @@
      <script src="js/config.js"></script>
 
      <script  type="text/javascript">
+       var navTypeVert = true;
        $(document).ready(docReady);
      </script>
 
@@ -50,16 +51,19 @@
   <body height="100%">
       <div id="nav_direct" 
            class="w3-sidebar w3-margin-right w3-bar-block w3-collapse 
-                  w3-large w3-animate-left w3-margin-top
+                  w3-large w3-animate-left w3-margin-top w3-center
                   w3-margin-left">
           <button class="fas fa-chevron-circle-left fa-2x w3-button w3-small
-                      w3-center w3-bar-item w3-padding-large w3-round-xxlarge w3-gray"
+                      w3-center  w3-padding-large
+                      w3-margin-bottom w3-round-xxlarge w3-gray"
                 onClick="prev(false)"></button>
           <button id="auto" class="fas fa-2x fa-pause-circle w3-button w3-small
-                     w3-center w3-bar-item w3-padding-large w3-round-xxlarge w3-gray"
+                     w3-center w3-padding-large w3-round-xxlarge
+                      w3-margin-bottom w3-round-xxlarge w3-gray"
                 onClick="toggleAutoUpdate()"></button>
           <button class="fas fa-2x fa-chevron-circle-right w3-button w3-small
-                     w3-center w3-bar-item w3-padding-large w3-round-xxlarge w3-gray"
+                     w3-center  w3-padding-large w3-round-xxlarge
+                      w3-margin-bottom w3-round-xxlarge w3-gray"
                 onClick="next(false)"></button>
       </div>
 

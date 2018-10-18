@@ -1,0 +1,72 @@
+<!doctype html>
+<!--
+# ----------------------------------------------------------------------------
+# Main page of pi-infoscreen (vertical navigation).
+#
+# This file defines the single page application.
+#
+# Author: Bernhard Bablok
+# License: GPL3
+#
+# Website: https://github.com/bablokb/pi-infoscreen
+#
+# ----------------------------------------------------------------------------
+-->
+
+<html lang="de">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Pi-Infoscreen">
+
+    <title>Pi-Infoscreen</title>
+
+    <!-- layout and styling thanks to w3c.css -->
+    <link rel="stylesheet" href="css/w3.css">
+    <link rel="stylesheet" href="css/fontawesome-all.min.css">
+
+     <!-- jquery and special functions -->
+     <script src="js/jquery-min.js"></script>
+     <script src="js/funcs.js"></script>
+
+     <!-- configuration -->
+     <script src="js/config.js"></script>
+
+     <script  type="text/javascript">
+       $(document).ready(docReady);
+     </script>
+
+     <style>
+        .w3-sidebar {
+          z-index: 3;
+          width: 120px;
+          top: 0px;
+          bottom: 0;
+          height: inherit;
+        }
+    </style>
+  </head>
+
+  <body height="100%">
+      <div id="nav_direct" 
+           class="w3-sidebar w3-margin-right w3-bar-block w3-collapse 
+                  w3-large w3-animate-left w3-margin-top
+                  w3-margin-left">
+          <button class="fas fa-chevron-circle-left fa-2x w3-button w3-small
+                      w3-center w3-bar-item w3-padding-large w3-round-xxlarge w3-gray"
+                onClick="prev(false)"></button>
+          <button id="auto" class="fas fa-2x fa-pause-circle w3-button w3-small
+                     w3-center w3-bar-item w3-padding-large w3-round-xxlarge w3-gray"
+                onClick="toggleAutoUpdate()"></button>
+          <button class="fas fa-2x fa-chevron-circle-right w3-button w3-small
+                     w3-center w3-bar-item w3-padding-large w3-round-xxlarge w3-gray"
+                onClick="next(false)"></button>
+      </div>
+
+    <!-- content - URL is loaded dynamically -->
+    <div id="main" class="w3-container"  style="margin-left:130px">
+      <iframe id="main_iframe"  name="main_iframe" height="600px" width="100%"
+              >Loading iframe</iframe>
+    </div>
+  </body>
+</html>

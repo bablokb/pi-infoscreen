@@ -8,7 +8,7 @@
 //
 // ----------------------------------------------------------------------------
 
-var UPDATE_INTERVAL = 10;     // in minutes
+var UPDATE_INTERVAL = 20;     // in seconds
 
 var PAGES = [
   {"url":
@@ -29,7 +29,7 @@ var PAGES = [
    "color": "yellow",
    "text": "Raspifeed"},
 
-  {"url": "https://sz.de",
+  {"url": "https://sueddeutsche.de/news",
    "color": "blue",
    "text": "SZ"}
 ];

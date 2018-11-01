@@ -1,0 +1,101 @@
+#!/bin/bash
+# --------------------------------------------------------------------------
+# This script installs files and services specific to this project.
+#
+# Author: Bernhard Bablok
+# License: GPL3
+#
+# Website: https://github.com/bablokb/pi-infoscreen
+#
+# --------------------------------------------------------------------------
+
+PACKAGES="unclutter matchbox-keyboard"
+PROJECT="pi-infoscreen"
+
+# --- basic packages   ------------------------------------------------------
+
+check_packages() {
+  local p
+  for p in "$@"; do
+    echo -en "Checking $p ... " >&2
+    dpkg -s "$p" 2>/dev/null | grep -q "Status.*ok" || return 0
+    echo "ok" >&2
+  done
+  return 1
+}
+
+get_new_packages() {
+  local p packages
+  for p in "$@"; do
+    echo -en "Checking $p ... " >&2
+    if dpkg -s "$p" 2>/dev/null | grep -q "Status.*ok"; then
+      echo "ok" >&2
+    else
+      echo "not installed" >&2
+      packages+=" $p"
+    fi
+  done
+  echo "$packages"
+}
+
+install_packages() {
+  new_packages=$(get_new_packages $PACKAGES)
+  if [ -n "$new_packages" ]; then
+    echo -e "[INFO] installing additional packages" 2>&1
+    apt-get update
+    apt-get -y --no-upgrade install $new_packages
+  fi
+}
+
+# --- install specific files   ----------------------------------------------
+
+install_files() {
+  echo -e "[INFO] installing project files" 2>&1
+
+  # save existing gpio-poll.conf
+  rand="$RANDOM"
+  if [ -f "/etc/gpio-poll.conf" ]; then
+    # save current configuration
+    mv "/etc/gpio-poll.conf" "/etc/gpio-poll.conf.$rand"
+  fi
+
+  for f in `find $(dirname "$0")/../files/ -type f -not -name "*.pyc"`; do
+    target="${f#*files}"
+    target_dir="${target%/*}"
+    [ ! -d "$target_dir" ] && mkdir -p "$target_dir"
+    cp "$f" "$target"
+    chown root:root "$target"
+  done
+
+  chmod 755 "/usr/local/sbin/shutdown-timer"
+  chmod 644 "/etc/gpio-poll.conf"
+
+  # restore old configuration
+  if [ -f "/etc/gpio-poll.conf.$rand" ]; then
+    mv -f "/etc/gpio-poll.conf" "/etc/gpio-poll.conf.new"
+    mv "/etc/gpio-poll.conf.$rand" "/etc/gpio-poll.conf"
+    echo -e "[INFO] new version of configuration file saved to: /etc/gpio-poll.conf.new" 2>&1
+  fi
+}
+
+# --- configure system   ----------------------------------------------------
+
+configure_system() {
+ :
+}
+
+# --- activate service   ----------------------------------------------------
+
+enable_services() {
+ :
+}
+
+# --- main program   --------------------------------------------------------
+
+install_packages
+
+install_files
+configure_system
+enable_services
+
+echo "[INFO] installation completed"

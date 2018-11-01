@@ -65,17 +65,22 @@ function update() {
 // --- function executing at document_ready   ---------------------------------
 
 function docReady() {
-  // loop over PAGES and add direct-links
+  // support some variants
+  var dir_classes = {
+    'vertical': "w3-center w3-bar-item w3-margin-bottom w3-padding-large w3-round-xxlarge",
+    'horizontal': "w3-right w3-padding-large w3-round-xxlarge",
+    'float': "w3-padding-large w3-round-xxlarge w3-margin-right"
+  };
+
   nav_direct = $('#nav_direct');
   var arrayLength = PAGES.length;
+
+  // loop over PAGES and add direct-links
   for (var i = 0; i < arrayLength; i++) {
    var page = PAGES[i];
    var direction = 'w3-right';
-   if (navTypeVert) {
-     direction = 'w3-center w3-bar-item w3-margin-bottom';
-   }
-   nav_direct.append('<a class="w3-button w3-small ' + direction +
-              ' w3-padding-large w3-round-xxlarge w3-'+page.color+'"\
+   nav_direct.append('<a class="w3-button w3-small ' + dir_classes[navType] +
+              '  w3-'+page.color+'"\
          href="' + page.url +'"\
          target="main_iframe">' + page.text + '</a>');
   }

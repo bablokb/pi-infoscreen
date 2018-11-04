@@ -11,6 +11,7 @@
 // global variables
 var pageIndex = 0;
 var autoUpdate = true;
+var UPDATE_INTERVAL = 20;
 
 // --- show next URL   --------------------------------------------------------
 

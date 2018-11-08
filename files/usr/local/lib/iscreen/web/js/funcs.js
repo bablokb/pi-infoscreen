@@ -11,7 +11,7 @@
 // global variables
 var pageIndex = 0;
 var autoUpdate = true;
-var UPDATE_INTERVAL = 20;
+var pageTimer = null;
 
 // --- show next URL   --------------------------------------------------------
 
@@ -45,11 +45,12 @@ function toggleAutoUpdate(bMode) {
   } else {
     autoUpdate = bMode;
   }
-  console.error("setting autoUpdate to: " + autoUpdate);
   if (autoUpdate) {
     $('#auto').removeClass('fa-play-circle');
     $('#auto').addClass('fa-pause-circle');
   } else {
+    // cancel timer
+    clearTimeout(pageTimer);
     $('#auto').removeClass('fa-pause-circle');
     $('#auto').addClass('fa-play-circle');
   }
@@ -58,9 +59,22 @@ function toggleAutoUpdate(bMode) {
 // --- show next page if autoupdate is set, otherwise noop   ------------------
 
 function update() {
+  var page = this.PAGES[this.pageIndex];
   if (autoUpdate) {
+    // load next page and schedule next update
     next(true);
+    pageTimer = setTimeout(update,1000*page.cycle);
+  } else {
+    // reload current page and schedule next reload
+    $('#main_iframe').attr('src', page.url);
+    pageTimer = setTimeout(update,1000*page.reload);
   }
+};
+
+function setDirectLink(index) {
+  toggleAutoUpdate(false);
+  pageIndex = index;
+  update();
 };
 
 // --- function executing at document_ready   ---------------------------------
@@ -78,17 +92,19 @@ function docReady() {
 
   // loop over PAGES and add direct-links
   for (var i = 0; i < arrayLength; i++) {
-   var page = PAGES[i];
-   var direction = 'w3-right';
-   nav_direct.append('<a class="w3-button w3-small ' + dir_classes[navType] +
+    var page = PAGES[i];
+    var direction = 'w3-right';
+    nav_direct.append('<a class="w3-button w3-small ' + dir_classes[navType] +
               '  w3-'+page.color+'"\
-         href="' + page.url +'"\
+         id="page'+ i + '" href="' + page.url +'"\
          target="main_iframe">' + page.text + '</a>');
+    that = window;
+    $('#page'+i).click($.proxy(function(event) {
+      var index = event.target.id.slice(4);  // remove "page"
+      setDirectLink(index);
+    },that));
   }
-  $('#nav_direct a').click(function() {
-    console.error("setting autoUpdate to false (direct link)");
-    autoUpdate = false;
-  });
   toggleAutoUpdate(autoUpdate);
-  setInterval(update,1000*UPDATE_INTERVAL);
+  pageIndex = PAGES.length - 1;
+  update();
 }

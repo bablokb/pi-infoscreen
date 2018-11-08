@@ -59,6 +59,13 @@ install_files() {
     mv "/etc/gpio-poll.conf" "/etc/gpio-poll.conf.$rand"
   fi
 
+  # save existing config.js
+  configfile="/usr/local/lib/iscreen/web/js/config.js"
+  if [ -f "$configfile" ]; then
+    # save current configuration
+    mv "$configfile" "$configfile.$rand"
+  fi
+
   for f in `find $(dirname "$0")/../files/ -type f -not -name "*.pyc"`; do
     target="${f#*files}"
     target_dir="${target%/*}"
@@ -75,6 +82,12 @@ install_files() {
     mv -f "/etc/gpio-poll.conf" "/etc/gpio-poll.conf.new"
     mv "/etc/gpio-poll.conf.$rand" "/etc/gpio-poll.conf"
     echo -e "[INFO] new version of configuration file saved to: /etc/gpio-poll.conf.new" 2>&1
+  fi
+
+  if [ -f "$configfile.$rand" ]; then
+    mv -f "$configfile" "$configfile.new"
+    mv "$configfile.$rand" "$configfile"
+    echo -e "[INFO] new version of configuration file saved to: $configfile.new" 2>&1
   fi
 }
 

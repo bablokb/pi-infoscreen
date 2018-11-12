@@ -25,7 +25,7 @@ The hardware consists of
   - a circuit with a P-channel mosfet
 
 For details about the PIC and the circuit, browse the
-[hardware-directory](hardware/Readme.md "hardware-directory").
+[hardware-directory](hardware/ "hardware-directory").
 
 Note that it is possible to run the infoscreen without the added luxury
 of a PIC and/or an IR motion sensor. In case you don't have a PIC you
@@ -55,7 +55,7 @@ state "Z1" and to take over again.
 Hardware Setup
 --------------
 
-The [circuit](hardware/pir_ctrol-circuit.gif "circuit") shows the wiring of
+The [circuit](hardware/pir_ctrl-circuit.gif "circuit") shows the wiring of
 the project. The PIR-out is connected to the GP2 of the PIC as well as
 GPIO17 of the Pi. In addition, GPIO4 of the Pi is connected to GP4 of the
 PIC - the Pi uses this connection to signal shutdown to the PIC.
@@ -94,12 +94,12 @@ The installation also modifies the autostart-behavior of the system. During
 boot, it will automatically load chromium in kiosk-mode and show a local
 web-page in app-mode which in turns cycles through a list of configured web-pages.
 
-You can modify the autostart-behaviour in
+You can modify the autostart-behavior in
 `/home/pi/.config/lxsession/LXDE-pi/autostart` and the list of web-pages in
 `/usr/local/lib/iscreen/web/js/config.js`.
 
 To make better use of the screen-space it is advisable to install a
 so called "user-agent-switcher" within chromium from the chrome-webstore. Using
-the switcher chromium can prentend to be running on a small device and
-some (but not all) webpages will deliver pages more suitable for small
-screens.
+the switcher chromium can prentend to be running on a small device
+(e.g. an iPhone6) and some (but not all) webpages will deliver pages
+more suitable for small screens.

@@ -1,0 +1,6 @@
+@lxpanel --profile LXDE-pi
+@pcmanfm --desktop --profile LXDE-pi
+@/usr/bin/chromium-browser --kiosk -app=file:///usr/local/lib/iscreen/web/float.html
+@unclutter
+@xset s off
+@xset dpms force off

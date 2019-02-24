@@ -1,3 +1,11 @@
+Contents
+========
+
+This directory contains a number of gifs and jpegs with the circuit
+and the layout of the hardware (including a gerber-file). It also
+contains the assembler code used for the PIC12F675.
+
+
 Assembling and Flashing
 =======================
 
